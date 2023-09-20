@@ -18,8 +18,11 @@ SEMESTER_OPTIONS = ('Fall','Winter')
 SEPARATOR = '/'
 CHOSEN_FORMAT = 0
 
-def get_year_list():
-    '''Creates and returns a list containing year pair strings'''
+def get_year_list() -> list[str]:
+    '''Creates and returns a list containing year pair strings
+    
+    Input: None
+    Returns: list[str] - year splits'''
     first_vals = range(START, END+1)
     second_vals = range(START+1, END+2)
     pair_list = []
@@ -35,9 +38,12 @@ def get_year_list():
         
     return pair_list
 
-def get_sem_list():
+def get_sem_list() -> list[str]:
     '''Creates and returns a list containing year pair strings
-    appended with an F or W for Fall and Winter'''
+    appended with an F or W for Fall and Winter
+    
+    Input: None
+    Returns: list[str] - semesters'''
     sem_list = []
     
     # build sem list
