@@ -1,0 +1,815 @@
+#:import FadeTransition kivy.uix.screenmanager.FadeTransition
+<Content>
+    orientation: "vertical"
+    spacing: "12dp"
+    size_hint_y: None
+    height: "230dp"
+
+    MDTextField:
+        id: txtf_new_prof
+        hint_text: "Profile Name"
+
+    MDTextField:
+        id: txtf_new_pass
+        hint_text: "Password"
+
+    CMDLabel:
+        font_style: 'H6'
+        text: "Choose an icon"
+
+    Spacer:
+
+    MDBoxLayout:
+        orientation: 'horizontal'
+        padding: [(self.width - (ib_wid1.width * 8)) / 2, self.height/5]
+
+        Spacer:
+
+        CMDIconButton:
+            id: ib_wid1
+            icon: "github"
+
+        CMDIconButton:
+            icon: "dog"
+
+        CMDIconButton:
+            icon: "robot"
+
+        CMDIconButton:
+            icon: "alpha"
+
+        CMDIconButton:
+            icon: "alpha-l-box"
+
+        CMDIconButton:
+            icon: "language-python"
+
+        CMDIconButton:
+            icon: "account"
+
+        CMDIconButton:
+            icon: "dolphin"
+
+
+<CircularProgressBar>
+    canvas.before:
+        Color:
+            rgba: (189/255, 195/255, 199/255, 0.1)
+        Line:
+            width: root.bar_width
+            ellipse: (self.x, self.y, self.width, self.height,0,360)
+
+    canvas.after:
+        Color:
+            rgba: root.bar_color + [0.7]
+        Line:
+            width: root.bar_width
+            ellipse: (self.x, self.y, self.width, self.height,0,root.progress)
+
+    MDLabel:
+        id: txt_circ_prog
+        font_size: root.width/4
+        pos_hint: {"center_x":0.5, "center_y":0.5}
+        halign: "center"
+        color: root.bar_color + [0.7]
+
+<ClassContent>
+    orientation: "vertical"
+    spacing: "12dp"
+    size_hint_y: None
+    height: "200dp"
+
+    MDTextField:
+        id: txtf_class_name
+        hint_text: "Class Name"
+
+    MDTextField:
+        id: txtf_prof_name
+        hint_text: "Professor Name"
+
+    MDTextField:
+        id: txtf_gpa_val
+        hint_text: "Class GPA Goal"
+
+<AEContent>
+    orientation: "vertical"
+    spacing: "12dp"
+    size_hint_y: None
+    height: "175dp"
+
+    MDTextField:
+        id: txtf_name
+        hint_text: "Name"
+
+    MDTextField:
+        id: txtf_weight
+        hint_text: "Weight"
+
+    MDRaisedButton:
+        md_bg_color: 'orange'
+        text: 'Set a due date'
+        pos_hint: {'center_x':.5}
+        on_release: root.show_date_picker()
+
+
+<CMDIconButton@MDIconButton>
+    pos_hint: {'center_x':.5}
+    on_press: root.parent.parent.parent.parent.parent.parent.parent.set_icon(self.icon)
+
+<HomeCard@MDCard>
+    md_bg_color: '#263238'
+
+<BlankCard>
+    md_bg_color: '#36474f'
+    line_color: 'grey'
+
+<ClassCard>
+    md_bg_color: '#263238'
+    focus_behavior: True
+    ripple_behavior: True
+    unfocus_color: '#263238'
+    focus_color: "grey"
+    orientation: 'vertical'
+
+    CMDLabel:
+        id: txt_class_name
+        font_style: 'Subtitle1'
+        text: 'CMPUT 201'
+        size_hint_y: .2
+
+    FitImage:
+        source: "assets/blueback.jpg"
+
+    CMDLabel:
+        id: txt_class_gpa
+        font_style: 'Subtitle1'
+        text: '3.52'
+        size_hint_y: .2
+
+
+<CMDLabel@MDLabel>
+    halign: 'center'
+
+<VMDBoxLayout@MDBoxLayout>
+    orientation: 'vertical'
+
+<Spacer@MDBoxLayout>
+    orientation: 'vertical'
+
+<MenuHeader>
+    orientation: "vertical"
+    adaptive_size: True
+    padding: "4dp"
+
+    MDBoxLayout:
+        spacing: "12dp"
+        adaptive_size: True
+
+        MDIconButton:
+            icon: "calendar"
+            pos_hint: {"center_y": .5}
+
+        MDLabel:
+            text: "Year"
+            adaptive_size: True
+            pos_hint: {"center_y": .5}
+
+<NavBarScreen>
+    name: 'sc_nav'
+    MDBoxLayout:
+        orientation: 'horizontal'
+
+        MDNavigationRail:
+            anchor: "center"
+            md_bg_color: '#263238'
+            selected_color_background: 'orange'
+            ripple_color_item: 'orange'
+
+            MDNavigationRailMenuButton:
+                id: nbtn_logout
+                icon: 'account-lock'
+                text: 'Log Out'
+
+            MDNavigationRailItem:
+                on_release: sc_manager.current = 'sc_home'
+                text: "Home"
+                icon: "home"
+
+            MDNavigationRailItem:
+                on_release: sc_manager.current = 'sc_analytics'
+                text: "Analytics"
+                icon: "chart-areaspline"
+
+            MDNavigationRailItem:
+                on_release: sc_manager.current = 'sc_mindblock'
+                text: 'MindBlock'
+                icon: "notebook-multiple"
+
+            MDNavigationRailItem:
+                on_release: sc_manager.current = 'sc_settings'
+                text: "Settings"
+                icon: "tools"
+
+        ScreenManager:
+            transition: FadeTransition()
+            id: sc_manager
+
+            HomeScreen:
+            ClassScreen:
+            AnalyticsScreen:
+            MindBlockScreen:
+            SettingsScreen:
+
+<MindBlockScreen>
+    name: 'sc_mindblock'
+
+    MDBoxLayout:
+        VMDBoxLayout:
+            size_hint_x: 2
+            id: box_notes
+            md_bg_color: '#36474f'
+            CMDLabel:
+                text: 'Notes'
+        Splitter:
+            sizeable_from: 'left'
+            VMDBoxLayout:
+                id: box_controls
+                md_bg_color: '#36474f'
+
+                MDTopAppBar:
+                    title: 'MindBlock Notes'
+                    md_bg_color: '#263238'
+                    elevation: 0
+                    anchor_title: 'left'
+                    right_action_items: [['plus', root.add_new, 'Create'],['folder-eye', root.open_note, 'Open']]
+
+                CMDLabel:
+                    text: 'Editing: Nothing at the moment'
+                    shorten: True
+                    shorten_from: 'right'
+                    size_hint: 1,.05
+                    pos_hint: {'top':1}
+
+                CMDLabel:
+                    text: 'Controls'
+
+<LoginScreen>
+    name: 'sc_login'
+
+    MDBoxLayout:
+        md_bg_color: '#263238'
+        padding: dp(40)
+
+        MDBoxLayout:
+            orientation: 'vertical'
+            padding: dp(60)
+
+            MDLabel:
+                text: 'New here?'
+                halign: 'center'
+                font_style: 'H4'
+
+            MDLabel:
+                halign: 'center'
+                text: 'You can create a new profile for yourself by clicking the button below. All of your assignment grades along with your GPA are encrypted using AES-128. None of your data ever leaves your device but please remember your password!'
+
+            MDBoxLayout:
+                size_hint_y: .2
+
+            MDRaisedButton:
+                pos_hint: {'center_x':.5}
+                md_bg_color: 'orange'
+                text: 'Get Started'
+                size_hint_x: .6
+                on_press: root.new_prof_dialog()
+
+            MDBoxLayout:
+                size_hint_y: .8
+
+        BoxLayout:
+            orientation: 'vertical'
+            size_hint_x: 1.5
+
+            FitImage:
+                source: "assets/vue.png"
+                size_hint_x: .5
+                pos_hint: {"top": 1, 'center_x': .5}
+
+            MDLabel:
+                id: txt_prof
+                halign: 'center'
+                font_style: 'H6'
+
+            MDList:
+                size_hint_x: .6
+                pos_hint: {'center_x': .5}
+
+                OneLineIconListItem:
+                    on_press: root.select_profile(1)
+                    id: list_1
+
+                    IconLeftWidget:
+                        id: licon_1
+                        icon: 'border-none-variant'
+
+                OneLineIconListItem:
+                    id: list_2
+                    on_press: root.select_profile(2)
+
+                    IconLeftWidget:
+                        id: licon_2
+                        icon: 'border-none-variant'
+
+                OneLineIconListItem:
+                    id: list_3
+                    on_press: root.select_profile(3)
+
+                    IconLeftWidget:
+                        id: licon_3
+                        icon: 'border-none-variant'
+
+            MDTextField:
+                id: txtf_password
+                password: True
+                hint_text: 'Password'
+                size_hint_x: 0.5
+                on_text_validate: root.login()
+                pos_hint: {'center_x': 0.5}
+
+            MDBoxLayout:
+                size_hint_y: 0.2
+
+            MDFlatButton:
+                id: btn_sign_in
+                text: 'Sign In'
+                md_bg_color: 'orange'
+                pos_hint: {'center_x': 0.5}
+                size_hint_x: 0.5
+                size_hint_y: 0.3
+                on_press: root.login()
+
+            MDBoxLayout:
+                size_hint_y: .3
+
+            MDLabel:
+                text: 'v1.01'
+                halign: 'center'
+
+<HomeScreen>
+    name: 'sc_home'
+    MDBoxLayout:
+        md_bg_color: '#36474f'
+        padding: dp(20)
+        spacing: dp(20)
+        VMDBoxLayout:
+            VMDBoxLayout:
+                size_hint_y: .5
+                size_hint_x: 1
+                md_bg_color: '#263238'
+                radius: 0,0,25,25
+
+                CMDLabel:
+                    id: txt_welcome
+                    md_bg_color: 'orange'
+                    font_style: 'H5'
+                    size_hint_y: .48
+
+                MDBoxLayout:
+
+                    VMDBoxLayout:
+                        Spacer:
+                            size_hint_y: .3
+
+                        CircularProgressBar:
+                            size_hint:None, None
+                            size: root.height/8,root.height/8
+                            pos_hint: {"center_x":0.5, "center_y":0.5}
+                            value: 84
+                            progress: 350
+
+                        CMDLabel:
+                            font_style: 'H6'
+                            text: 'GPA'
+
+                    VMDBoxLayout:
+                        Spacer:
+                            size_hint_y: .3
+
+                        CircularProgressBar:
+                            size_hint:None, None
+                            size: root.height/8,root.height/8
+                            pos_hint: {"center_x":0.5, "center_y":0.5}
+                            value: 62
+
+                        CMDLabel:
+                            font_style: 'H6'
+                            text: 'Workload Progress'
+
+                    VMDBoxLayout:
+                        Spacer:
+                            size_hint_y: .3
+
+                        CircularProgressBar:
+                            size_hint:None, None
+                            size: root.height/8,root.height/8
+                            pos_hint: {"center_x":0.5, "center_y":0.5}
+                            value: 120
+
+                        CMDLabel:
+                            font_style: 'H6'
+                            text: 'Semester Progress'
+
+            VMDBoxLayout:
+                MDBoxLayout:
+                    size_hint_y: .2
+                    MDLabel:
+                        id: txt_class_sem
+                        font_style: 'H6'
+
+                    MDFlatButton:
+                        md_bg_color: 'orange'
+                        text: '+'
+                        size_hint_x: .2
+                        on_press: root.new_class_dialog()
+                        pos_hint: {'center_y':.5,'center_x':.9}
+
+                MDGridLayout:
+                    id: grid_classes
+                    cols: 3
+                    rows: 2
+                    spacing: dp(20)
+                
+        VMDBoxLayout:
+            size_hint_x: .7
+            VMDBoxLayout:
+                md_bg_color: '#263238'
+                radius: 0,0,25,25
+                CMDLabel:
+                    size_hint_y: .12
+                    font_style: 'H6'
+                    md_bg_color: 'orange'
+                    text: "What's coming up?"
+
+                MDList:
+                    size_hint: .9, 1
+                    pos_hint: {'center_x': .5}
+
+                    OneLineAvatarIconListItem:
+                        id: basic
+                        text: "Nothing is due!"
+
+                        IconLeftWidget:
+                            icon: 'border-none-variant'
+
+                        IconRightWidget:
+                            icon: 'check-all'
+                
+<ClassScreen>
+    name: 'sc_class'
+
+    VMDBoxLayout:
+        MDBoxLayout:
+            orientation: 'horizontal'
+            md_bg_color: '#36474f'
+            padding: dp(15)
+            spacing: dp(15)
+
+            VMDBoxLayout:
+                spacing: dp(15)
+                HomeCard:
+                    orientation: 'vertical'
+                    CMDLabel:
+                        id: txt_class_name
+                        md_bg_color: 'orange'
+                        font_style: 'H4'
+
+                    MDLabel:
+                        id: txt_class_prof
+                        font_style: 'H6'
+
+                    MDLabel:
+                        id: txt_class_wgpa
+                        font_style: 'H6'
+
+                    MDLabel:
+                        font_style: 'H6'
+                        text: '   - Your current GPA is: 3.72'
+
+                HomeCard:
+                    orientation: 'vertical'
+                    padding: dp(5)
+                    CMDLabel:
+                        font_style: 'H5'
+                        size_hint_y: .5
+                        text: 'Estimate Final Grade'
+
+                    MDBoxLayout:
+                        spacing: dp(10)
+                        MDLabel:
+                            size_hint_x: 1.5
+                            font_style: 'H6'
+                            text: 'This option requires you to give estimates of all ungraded assignments to calculate your estimated GPA. Press the button to begin!'
+
+                        MDFlatButton:
+                            md_bg_color: 'orange'
+                            text: 'Start'
+                            size_hint_x: .75
+                            pos_hint: {'center_y':.5, 'center_x':.5}
+
+                    MDBoxLayout:
+                        padding: dp(20)
+                        spacing: dp(5)
+
+                        CMDLabel:
+                            text: 'N/A'
+                            size_hint_x: .7
+
+                        MDTextField:
+                            text: 'N/A'
+                            size_hint_x: .5
+                            pos_hint: {'center_y':.5}
+
+                        MDFlatButton:
+                            md_bg_color: 'orange'
+                            text: 'N/A'
+                            pos_hint: {'center_y':.5}
+
+            HomeCard:
+                orientation: 'vertical'
+                padding: dp(5)
+                MDBoxLayout:
+                    size_hint_y: .2
+                    MDLabel:
+                        font_style: 'H6'
+                        text: 'Assignments'
+
+                    MDFlatButton:
+                        on_release: root.add_new_dialog('assignment')
+                        md_bg_color: 'orange'
+                        size_hint_x: 1
+                        pos_hint: {'center_y':.5}
+                        text: 'Add New'
+                
+                MDList:
+                    size_hint_y: 1
+
+                    OneLineAvatarIconListItem:
+                        text: "No assignments!"
+
+                        IconLeftWidget:
+                            icon: 'border-none-variant'
+
+                        IconRightWidget:
+                            icon: 'check-all'
+
+                MDBoxLayout:
+                    size_hint_y: .2
+                    MDLabel:
+                        font_style: 'H6'
+                        text: 'Exams/Quizzes'
+
+                    MDFlatButton:
+                        on_release: root.add_new_dialog('exam')
+                        md_bg_color: 'orange'
+                        size_hint_x: 1
+                        pos_hint: {'center_y':.5}
+                        text: 'Add New'
+                
+                MDList:
+                    size_hint_y: 1
+
+                    OneLineAvatarIconListItem:
+                        text: "No exams!"
+
+                        IconLeftWidget:
+                            icon: 'border-none-variant'
+
+                        IconRightWidget:
+                            icon: 'check-all'
+
+<NotesScreen>
+    name: 'sc_notes'
+
+    VMDBoxLayout:
+
+        MDTopAppBar:
+            title: 'Notes'
+            anchor_title: 'left'
+            md_bg_color: '#263238'
+
+        MDBoxLayout:
+            orientation: 'horizontal'
+            md_bg_color: '#36474f'
+            spacing: dp(20)
+            padding: dp(20)
+
+            TextInput:
+                size_hint_x: .9
+                background_color: 1,1,1,.45
+                multiline: True
+                pos_hint: {'center_x':.5}
+
+            VMDBoxLayout:
+                size_hint_x: .6
+
+                FileChooserListView:
+                    id: filechooser
+                    multiselect: False
+                    text: '[b]Nice one[/b]'
+            
+                MDRaisedButton:
+                    text: '   Open   '
+                    size_hint_x: 1
+                    md_bg_color: '#536a8f'
+
+<AnalyticsScreen>
+    name: 'sc_analytics'
+
+    VMDBoxLayout:
+
+        MDTopAppBar:
+            title: 'Grade Analytics'
+            anchor_title: 'left'
+            md_bg_color: '#263238'
+
+        MDBoxLayout:
+            md_bg_color: '#36474f'
+            padding: dp(20)
+            spacing: dp(20)
+
+<SettingsScreen>
+    name: 'sc_settings'
+
+    MDBoxLayout:
+        md_bg_color: '#36474f'
+        padding: dp(70)
+
+        MDBoxLayout:
+            orientation: 'horizontal'
+            spacing: dp(70)
+
+            HomeCard:
+                VMDBoxLayout:
+                    padding: dp(10)
+                    CMDLabel:
+                        size_hint_y: .2
+                        font_style: 'H5'
+                        text: "Main Settings"
+
+                    MDBoxLayout:
+                        MDLabel:
+                            text: 'Calculate GPA with completed items'
+                            pos_hint: {'center_y': .5}
+                        
+                        MDBoxLayout:
+                            size_hint_x: .5
+                            MDSwitch:
+                                pos_hint: {'center_y': .45, 'center_x':.5}
+
+                    MDBoxLayout:
+                        MDLabel:
+                            text: 'Use full year to calculate Home GPA'
+                            pos_hint: {'center_y': .5}
+                        
+                        MDBoxLayout:
+                            size_hint_x: .5
+                            MDSwitch:
+                                pos_hint: {'center_y': .45, 'center_x':.5}
+
+                    VMDBoxLayout:
+
+                        CMDLabel:
+                            font_style: 'H6'
+                            size_hint_y: .2
+                            text: 'Current Semester:'
+
+                        CMDLabel:
+                            id: txt_sem
+
+                        MDBoxLayout:
+                            orientation: 'horizontal'
+                            spacing: dp(10)
+                            padding: dp(10)
+
+                            MDFlatButton:
+                                on_release: root.set_season('Fall')
+                                md_bg_color: '#DF440D'
+                                size_hint_x: 1
+                                text: 'Fall'
+
+                            MDFlatButton:
+                                on_release: root.set_season('Winter')
+                                md_bg_color: '#9ABDDC'
+                                size_hint_x: 1
+                                text: 'Winter'
+
+                        MDFlatButton:
+                            id: btn_year
+                            md_bg_color: 'green'
+                            pos_hint: {'center_x':.5}
+                            size_hint_x: .5
+                            on_release: root.year_menu_open()
+
+            MDBoxLayout:
+                orientation: 'vertical'
+                spacing: dp(70)
+
+                HomeCard:
+                    VMDBoxLayout:
+
+                        CMDLabel:
+                            font_style: 'H6'
+                            text: "Visual Settings"
+
+                        MDBoxLayout:
+                            orientation: 'horizontal'
+                            spacing: dp(10)
+                            padding: dp(10)
+
+                            MDFlatButton:
+                                md_bg_color: '#36474f'
+                                size_hint_x: 1
+
+                            MDFlatButton:
+                                md_bg_color: 'white'
+                                size_hint_x: 1
+
+                            MDFlatButton:
+                                md_bg_color: 'pink'
+                                size_hint_x: 1
+
+                            
+
+                        CMDLabel:
+                            font_style: 'H6'
+                            text: "Profile Icons"
+
+                        MDBoxLayout:
+                            orientation: 'horizontal'
+                            padding: [(self.width - (ib_wid.width * 8)) / 2, self.height/5]
+
+                            Spacer:
+
+                            CMDIconButton:
+                                id: ib_wid
+                                icon: "github"
+
+                            CMDIconButton:
+                                icon: "dog"
+
+                            CMDIconButton:
+                                icon: "robot"
+
+                            CMDIconButton:
+                                icon: "alpha"
+
+                            CMDIconButton:
+                                icon: "alpha-l-box"
+
+                            CMDIconButton:
+                                icon: "language-python"
+
+                            CMDIconButton:
+                                icon: "account"
+
+                            CMDIconButton:
+                                icon: "dolphin"
+
+                HomeCard:
+                    VMDBoxLayout:
+
+                        CMDLabel:
+                            font_style: 'H6'
+                            text: "Account Settings"
+
+                        MDRaisedButton:
+                            size_hint: .8, 1
+                            pos_hint: {'center_x': .5}
+                            text: 'Change Password'
+                            md_bg_color: 'orange'
+
+                        Spacer:
+                            size_hint_y: .3
+
+                        MDRaisedButton:
+                            size_hint: .8, 1
+                            pos_hint: {'center_x': .5}
+                            text: 'Delete Profile'
+                            md_bg_color: 'red'
+
+                        Spacer:
+                            size_hint_y: .3
+
+
+
+
+
+        
+
+ScreenManager:
+    id: sc_alpha
+    transition: FadeTransition()
+
+    LoginScreen:
+    NavBarScreen:
+
